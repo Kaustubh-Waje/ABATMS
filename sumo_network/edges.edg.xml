@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Edge definitions for 4-way intersection -->
+<edges xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/edges_file.xsd">
+    
+    <!-- North approach -->
+    <edge id="north_in" from="north_node" to="center" numLanes="3" speed="13.89"/>
+    <edge id="north_out" from="center" to="north_node" numLanes="3" speed="13.89"/>
+    
+    <!-- South approach -->
+    <edge id="south_in" from="south_node" to="center" numLanes="3" speed="13.89"/>
+    <edge id="south_out" from="center" to="south_node" numLanes="3" speed="13.89"/>
+    
+    <!-- East approach -->
+    <edge id="east_in" from="east_node" to="center" numLanes="3" speed="13.89"/>
+    <edge id="east_out" from="center" to="east_node" numLanes="3" speed="13.89"/>
+    
+    <!-- West approach -->
+    <edge id="west_in" from="west_node" to="center" numLanes="3" speed="13.89"/>
+    <edge id="west_out" from="center" to="west_node" numLanes="3" speed="13.89"/>
+    
+</edges>

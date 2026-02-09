@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SUMO GUI View Settings - Enhanced Traffic Light Visibility -->
+<viewsettings>
+    <scheme name="traffic_light_view">
+        <!-- Viewport: Zoom into the junction center -->
+        <background backgroundColor="50,50,50"/>
+        
+        <!-- Make vehicles more visible -->
+        <vehicles vehicleMode="1" vehicleQuality="2" 
+                  minVehicleSize="1" vehicleExaggeration="1.5"
+                  showBlinker="true"/>
+        
+        <!-- Junction settings -->
+        <junctions junctionMode="1" 
+                   drawLinkTLIndex="true" 
+                   drawLinkJunctionIndex="false"
+                   junctionSize="3"/>
+        
+        <!-- Traffic lights - make them very visible -->
+        <openGL dontDraw="false"/>
+        
+        <!-- Show lane directions -->
+        <edges laneShowBorders="true" 
+               showLinkDecals="true"
+               showLinkRules="true"
+               showRails="true"/>
+               
+    </scheme>
+    
+    <!-- Default viewport centered on junction -->
+    <viewport x="400" y="400" zoom="200"/>
+    
+    <!-- Delay for better visibility -->
+    <delay value="50"/>
+    
+</viewsettings>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SUMO Simulation Configuration -->
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/sumoConfiguration.xsd">
+
+    <input>
+        <net-file value="junction.net.xml"/>
+        <route-files value="vehicles.rou.xml"/>
+        <additional-files value="detectors.add.xml,traffic_light.add.xml"/>
+    </input>
+
+    <gui_only>
+        <gui-settings-file value="view.settings.xml"/>
+    </gui_only>
+
+    <time>
+        <begin value="0"/>
+        <end value="3600"/>
+        <step-length value="0.1"/>
+    </time>
+
+    <processing>
+        <time-to-teleport value="-1"/>
+    </processing>
+
+</configuration>

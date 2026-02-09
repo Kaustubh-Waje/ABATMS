@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Node definitions for 4-way intersection -->
+<nodes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/nodes_file.xsd">
+    
+    <!-- Central junction with traffic light -->
+    <node id="center" x="500.0" y="500.0" type="traffic_light"/>
+    
+    <!-- Boundary nodes -->
+    <node id="north_node" x="500.0" y="900.0" type="priority"/>
+    <node id="south_node" x="500.0" y="100.0" type="priority"/>
+    <node id="east_node" x="900.0" y="500.0" type="priority"/>
+    <node id="west_node" x="100.0" y="500.0" type="priority"/>
+    
+</nodes>

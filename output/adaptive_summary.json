@@ -1,0 +1,15 @@
+{
+  "mode": "adaptive",
+  "total_samples": 101,
+  "simulation_duration": 100.9,
+  "average_waiting_time": 3.350415187906989,
+  "max_waiting_time": 10.31779359430605,
+  "min_waiting_time": 0.0,
+  "average_queue_length": 47.95049504950495,
+  "max_queue_length": 135,
+  "total_phase_changes": 9,
+  "ns_green_phases": 2,
+  "ew_green_phases": 1,
+  "emergency_events": 0,
+  "emergency_preemptions": 0
+}

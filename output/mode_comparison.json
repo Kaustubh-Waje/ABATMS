@@ -1,0 +1,39 @@
+{
+  "fixed_time_results": {
+    "mode": "fixed",
+    "total_samples": 3600,
+    "simulation_duration": 3599.9,
+    "average_waiting_time": 17.140427561641918,
+    "max_waiting_time": 29.274193548387096,
+    "min_waiting_time": 0.0,
+    "average_queue_length": 33.35861111111111,
+    "max_queue_length": 49,
+    "total_phase_changes": 211,
+    "ns_green_phases": 27,
+    "ew_green_phases": 26,
+    "emergency_events": 0,
+    "emergency_preemptions": 0
+  },
+  "adaptive_results": {
+    "mode": "adaptive",
+    "total_samples": 3600,
+    "simulation_duration": 3599.9,
+    "average_waiting_time": 5.4190022977589205,
+    "max_waiting_time": 19.343103448275862,
+    "min_waiting_time": 0.0,
+    "average_queue_length": 17.933611111111112,
+    "max_queue_length": 37,
+    "total_phase_changes": 558,
+    "ns_green_phases": 71,
+    "ew_green_phases": 72,
+    "emergency_events": 0,
+    "emergency_preemptions": 0
+  },
+  "comparison": {
+    "waiting_time_improvement_percent": 68.3846725627431,
+    "queue_length_improvement_percent": 46.239934716173565,
+    "overall_efficiency_score": 59.52677742411528,
+    "adaptive_is_better": true,
+    "recommendation": "Adaptive control is recommended"
+  }
+}

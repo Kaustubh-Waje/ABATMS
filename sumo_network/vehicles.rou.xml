@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Vehicle Routes and Flow Definitions
+    Includes: Cars, Trucks, and Emergency Vehicles
+-->
+
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
+
+    <!-- ============================================== -->
+    <!-- VEHICLE TYPES -->
+    <!-- ============================================== -->
+    
+    <!-- Standard Car -->
+    <vType id="car" accel="2.6" decel="4.5" sigma="0.5" length="5.0" minGap="2.5" 
+           maxSpeed="50.0" speedFactor="1.0" speedDev="0.1" color="0.8,0.8,0.0"
+           guiShape="passenger" vClass="passenger"/>
+    
+    <!-- Truck -->
+    <vType id="truck" accel="1.3" decel="3.0" sigma="0.5" length="12.0" minGap="3.0" 
+           maxSpeed="30.0" speedFactor="0.8" speedDev="0.05" color="0.5,0.5,0.5"
+           guiShape="truck" vClass="truck"/>
+    
+    <!-- Emergency Vehicle (Ambulance/Fire) -->
+    <vType id="emergency" accel="3.5" decel="5.0" sigma="0.3" length="6.0" minGap="2.0" 
+           maxSpeed="60.0" speedFactor="1.2" speedDev="0.0" color="1.0,0.0,0.0"
+           guiShape="emergency" vClass="emergency"
+           emissionClass="HBEFA3/PC_G_EU4"/>
+    
+    <!-- ============================================== -->
+    <!-- ROUTE DEFINITIONS - All possible paths -->
+    <!-- ============================================== -->
+    
+    <!-- North to South (Straight) -->
+    <route id="route_N_S" edges="north_in south_out"/>
+    <!-- North to East (Left Turn) -->
+    <route id="route_N_E" edges="north_in east_out"/>
+    <!-- North to West (Right Turn) -->
+    <route id="route_N_W" edges="north_in west_out"/>
+    
+    <!-- South to North (Straight) -->
+    <route id="route_S_N" edges="south_in north_out"/>
+    <!-- South to West (Left Turn) -->
+    <route id="route_S_W" edges="south_in west_out"/>
+    <!-- South to East (Right Turn) -->
+    <route id="route_S_E" edges="south_in east_out"/>
+    
+    <!-- East to West (Straight) -->
+    <route id="route_E_W" edges="east_in west_out"/>
+    <!-- East to South (Left Turn) -->
+    <route id="route_E_S" edges="east_in south_out"/>
+    <!-- East to North (Right Turn) -->
+    <route id="route_E_N" edges="east_in north_out"/>
+    
+    <!-- West to East (Straight) -->
+    <route id="route_W_E" edges="west_in east_out"/>
+    <!-- West to North (Left Turn) -->
+    <route id="route_W_N" edges="west_in north_out"/>
+    <!-- West to South (Right Turn) -->
+    <route id="route_W_S" edges="west_in south_out"/>
+
+    <!-- ============================================== -->
+    <!-- TRAFFIC FLOWS - Vehicle generation -->
+    <!-- ============================================== -->
+    
+    <!-- North Approach Flows -->
+    <flow id="flow_N_S_car" type="car" route="route_N_S" begin="0" end="3600" 
+          vehsPerHour="400" departLane="1" departSpeed="max"/>
+    <flow id="flow_N_E_car" type="car" route="route_N_E" begin="0" end="3600" 
+          vehsPerHour="150" departLane="2" departSpeed="max"/>
+    <flow id="flow_N_W_car" type="car" route="route_N_W" begin="0" end="3600" 
+          vehsPerHour="150" departLane="0" departSpeed="max"/>
+    <flow id="flow_N_S_truck" type="truck" route="route_N_S" begin="0" end="3600" 
+          vehsPerHour="50" departLane="1" departSpeed="max"/>
+    
+    <!-- South Approach Flows -->
+    <flow id="flow_S_N_car" type="car" route="route_S_N" begin="0" end="3600" 
+          vehsPerHour="350" departLane="1" departSpeed="max"/>
+    <flow id="flow_S_W_car" type="car" route="route_S_W" begin="0" end="3600" 
+          vehsPerHour="100" departLane="2" departSpeed="max"/>
+    <flow id="flow_S_E_car" type="car" route="route_S_E" begin="0" end="3600" 
+          vehsPerHour="120" departLane="0" departSpeed="max"/>
+    <flow id="flow_S_N_truck" type="truck" route="route_S_N" begin="0" end="3600" 
+          vehsPerHour="40" departLane="1" departSpeed="max"/>
+    
+    <!-- East Approach Flows (Higher traffic - main corridor) -->
+    <flow id="flow_E_W_car" type="car" route="route_E_W" begin="0" end="3600" 
+          vehsPerHour="500" departLane="1" departSpeed="max"/>
+    <flow id="flow_E_S_car" type="car" route="route_E_S" begin="0" end="3600" 
+          vehsPerHour="180" departLane="2" departSpeed="max"/>
+    <flow id="flow_E_N_car" type="car" route="route_E_N" begin="0" end="3600" 
+          vehsPerHour="130" departLane="0" departSpeed="max"/>
+    <flow id="flow_E_W_truck" type="truck" route="route_E_W" begin="0" end="3600" 
+          vehsPerHour="80" departLane="1" departSpeed="max"/>
+    
+    <!-- West Approach Flows (Higher traffic - main corridor) -->
+    <flow id="flow_W_E_car" type="car" route="route_W_E" begin="0" end="3600" 
+          vehsPerHour="480" departLane="1" departSpeed="max"/>
+    <flow id="flow_W_N_car" type="car" route="route_W_N" begin="0" end="3600" 
+          vehsPerHour="160" departLane="2" departSpeed="max"/>
+    <flow id="flow_W_S_car" type="car" route="route_W_S" begin="0" end="3600" 
+          vehsPerHour="140" departLane="0" departSpeed="max"/>
+    <flow id="flow_W_E_truck" type="truck" route="route_W_E" begin="0" end="3600" 
+          vehsPerHour="70" departLane="1" departSpeed="max"/>
+
+    <!-- ============================================== -->
+    <!-- EMERGENCY VEHICLES - Spawned at intervals -->
+    <!-- ============================================== -->
+    
+    <!-- Emergency vehicles every ~5 minutes from different directions -->
+    <vehicle id="emergency_1" type="emergency" route="route_N_S" depart="300" departLane="1"/>
+    <vehicle id="emergency_2" type="emergency" route="route_E_W" depart="600" departLane="1"/>
+    <vehicle id="emergency_3" type="emergency" route="route_S_N" depart="900" departLane="1"/>
+    <vehicle id="emergency_4" type="emergency" route="route_W_E" depart="1200" departLane="1"/>
+    <vehicle id="emergency_5" type="emergency" route="route_N_E" depart="1500" departLane="2"/>
+    <vehicle id="emergency_6" type="emergency" route="route_E_S" depart="1800" departLane="2"/>
+    <vehicle id="emergency_7" type="emergency" route="route_S_W" depart="2100" departLane="2"/>
+    <vehicle id="emergency_8" type="emergency" route="route_W_N" depart="2400" departLane="2"/>
+    <vehicle id="emergency_9" type="emergency" route="route_N_S" depart="2700" departLane="1"/>
+    <vehicle id="emergency_10" type="emergency" route="route_E_W" depart="3000" departLane="1"/>
+    <vehicle id="emergency_11" type="emergency" route="route_S_N" depart="3300" departLane="1"/>
+    <vehicle id="emergency_12" type="emergency" route="route_W_E" depart="3600" departLane="1"/>
+
+</routes>
