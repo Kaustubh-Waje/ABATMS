@@ -14,80 +14,158 @@ import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
 import plotly.express as px
-import streamlit.components.v1 as components
 
 # Add project paths
 PROJECT_ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(PROJECT_ROOT / 'src'))
 
 OUTPUT_DIR = PROJECT_ROOT / 'output'
-HISTORY_DIR = OUTPUT_DIR / 'history'
-ASSETS_DIR = PROJECT_ROOT / 'dashboard' / 'assets'
 
 # ============================================== #
-# UI CONFIGURATION & STYLES
+# PAGE CONFIGURATION
 # ============================================== #
 
 st.set_page_config(
-    page_title="AI Traffic Control",
+    page_title="Traffic Control Dashboard",
     page_icon="🚦",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-import base64
-
-def load_custom_css():
-    """Simple custom CSS."""
-    st.markdown("""
-        <style>
-        .block-container {
-            padding-top: 1rem;
-            padding-bottom: 5rem;
-        }
-        </style>
-    """, unsafe_allow_html=True)
-
-def load_shader_background():
-    pass
-
-def load_shader_background():
-    """Deprecated: Replaced with CSS-only background for stability."""
-    pass
-    return None
+# Modern Dark Theme CSS
+st.markdown("""
+<style>
+    /* Main background */
+    .stApp {
+        background: linear-gradient(180deg, #0f0f23 0%, #1a1a3e 100%);
+    }
+    
+    /* Sidebar */
+    section[data-testid="stSidebar"] {
+        background: linear-gradient(180deg, #1a1a3e 0%, #0f0f23 100%);
+        border-right: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    /* Headers */
+    h1, h2, h3 {
+        color: #ffffff !important;
+        font-weight: 600 !important;
+    }
+    
+    /* Metric cards */
+    div[data-testid="metric-container"] {
+        background: rgba(255,255,255,0.05);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 12px;
+        padding: 16px;
+    }
+    
+    div[data-testid="metric-container"] label {
+        color: rgba(255,255,255,0.7) !important;
+    }
+    
+    div[data-testid="metric-container"] div[data-testid="stMetricValue"] {
+        color: #00d4ff !important;
+        font-weight: 700;
+    }
+    
+    /* Buttons */
+    .stButton > button {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    
+    .stButton > button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+    }
+    
+    /* Tabs */
+    .stTabs [data-baseweb="tab-list"] {
+        background: rgba(255,255,255,0.05);
+        border-radius: 12px;
+        padding: 4px;
+    }
+    
+    .stTabs [data-baseweb="tab"] {
+        color: rgba(255,255,255,0.7);
+        border-radius: 8px;
+    }
+    
+    .stTabs [aria-selected="true"] {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white !important;
+    }
+    
+    /* Cards */
+    .metric-card {
+        background: rgba(255,255,255,0.05);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 16px;
+        padding: 24px;
+        margin: 8px 0;
+    }
+    
+    /* Status indicators */
+    .status-dot {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        margin-right: 8px;
+        animation: pulse 2s infinite;
+    }
+    
+    .status-green { background: #10b981; }
+    .status-red { background: #ef4444; }
+    
+    @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.5; }
+    }
+    
+    /* Select box */
+    div[data-baseweb="select"] {
+        background: rgba(255,255,255,0.05);
+        border-radius: 8px;
+    }
+    
+    /* Dividers */
+    hr {
+        border-color: rgba(255,255,255,0.1);
+    }
+    
+    /* Info boxes */
+    .stAlert {
+        background: rgba(255,255,255,0.05);
+        border-radius: 12px;
+    }
+</style>
+""", unsafe_allow_html=True)
 
 
 # ============================================== #
 # DATA LOADING
 # ============================================== #
 
-def load_results(mode: str, base_dir: Optional[Path] = None) -> Optional[Dict]:
+def load_results(mode: str) -> Optional[Dict]:
     """Load simulation results."""
-    directory = base_dir or OUTPUT_DIR
-    filepath = directory / f"{mode}_summary.json"
+    filepath = OUTPUT_DIR / f"{mode}_summary.json"
     if filepath.exists():
         with open(filepath, 'r') as f:
             return json.load(f)
     return None
 
-def load_csv_data(mode: str, base_dir: Optional[Path] = None) -> Optional[pd.DataFrame]:
+def load_csv_data(mode: str) -> Optional[pd.DataFrame]:
     """Load simulation CSV data."""
-    directory = base_dir or OUTPUT_DIR
-    filepath = directory / f"{mode}_simulation_metrics.csv"
+    filepath = OUTPUT_DIR / f"{mode}_simulation_metrics.csv"
     if filepath.exists():
         return pd.read_csv(filepath)
     return None
-
-def load_history() -> list:
-    """Load simulation history index."""
-    filepath = HISTORY_DIR / 'index.json'
-    if filepath.exists():
-        try:
-            with open(filepath, 'r') as f:
-                return json.load(f)
-        except:
-            return []
-    return []
 
 def load_comparison() -> Optional[Dict]:
     """Load comparison results."""
@@ -243,33 +321,19 @@ def render_sidebar():
         
         st.divider()
         
-        # History Selection
-        st.markdown("### 📜 History")
-        
-        history = load_history()
-        # Create mapping of display label to run info
-        history_map = {
-            f"{h['timestamp']} ({h['mode'].upper()})": h 
-            for h in history
-        }
-        
-        options = ["Latest Run (Local)"] + list(history_map.keys())
-        selected_option = st.selectbox("Select Run", options)
-        
-        selected_run_info = None
-        if selected_option != "Latest Run (Local)":
-            selected_run_info = history_map[selected_option]
-            
-        st.divider()
-        
         # Refresh data
-        st.markdown("### 📁 Data Actions")
+        st.markdown("### 📁 Data")
         
-        if st.button("🔄 Reload Data", use_container_width=True):
-            st.cache_data.clear()
+        if st.button("🔄 Refresh All Data", use_container_width=True):
+            st.session_state.adaptive_data = load_results('adaptive')
+            st.session_state.fixed_data = load_results('fixed')
+            st.session_state.adaptive_csv = load_csv_data('adaptive')
+            st.session_state.fixed_csv = load_csv_data('fixed')
+            st.session_state.comparison = load_comparison()
+            st.success("✅ Data refreshed!")
             st.rerun()
-            
-        return mode, selected_run_info
+        
+        return mode
 
 
 # ============================================== #
@@ -293,29 +357,11 @@ def render_header():
         """, unsafe_allow_html=True)
 
 
-def render_overview(selected_run_info):
+def render_overview():
     """Render overview section."""
-    
-    # Determine what to load
-    adaptive = None
-    fixed = None
-    
-    if selected_run_info:
-        # Load historical run
-        run_mode = selected_run_info['mode']
-        run_dir = HISTORY_DIR / selected_run_info['run_id']
-        
-        if run_mode == 'adaptive':
-            adaptive = load_results('adaptive', run_dir)
-        else:
-            fixed = load_results('fixed', run_dir)
-            
-        st.info(f"📂 Viewing historical run: **{selected_run_info['timestamp']}** (Mode: {run_mode.upper()})")
-        
-    else:
-        # Load latest local data (default behavior)
-        adaptive = load_results('adaptive')
-        fixed = load_results('fixed')
+    # Load data
+    adaptive = st.session_state.get('adaptive_data') or load_results('adaptive')
+    fixed = st.session_state.get('fixed_data') or load_results('fixed')
     
     st.session_state.adaptive_data = adaptive
     st.session_state.fixed_data = fixed
@@ -369,7 +415,7 @@ def render_overview(selected_run_info):
             st.warning(f"⚠️ Fixed-time performed {-improvement:.1f}% better in this scenario")
 
 
-def render_realtime_tab(selected_run_info):
+def render_realtime_tab():
     """Render real-time monitoring tab."""
     st.markdown("### 📈 Time Series Analysis")
     
@@ -382,22 +428,13 @@ def render_realtime_tab(selected_run_info):
     )
     
     # Load CSV data properly
-    adaptive_csv = None
-    fixed_csv = None
+    if 'adaptive_csv' not in st.session_state or st.session_state.adaptive_csv is None:
+        st.session_state.adaptive_csv = load_csv_data('adaptive')
+    if 'fixed_csv' not in st.session_state or st.session_state.fixed_csv is None:
+        st.session_state.fixed_csv = load_csv_data('fixed')
     
-    if selected_run_info:
-        run_mode = selected_run_info['mode']
-        run_dir = HISTORY_DIR / selected_run_info['run_id']
-        if run_mode == 'adaptive':
-            adaptive_csv = load_csv_data('adaptive', run_dir)
-        else:
-            fixed_csv = load_csv_data('fixed', run_dir)
-    else:
-        adaptive_csv = load_csv_data('adaptive')
-        fixed_csv = load_csv_data('fixed')
-        
-    st.session_state.adaptive_csv = adaptive_csv
-    st.session_state.fixed_csv = fixed_csv
+    adaptive_csv = st.session_state.adaptive_csv
+    fixed_csv = st.session_state.fixed_csv
     
     if view_mode == 'both':
         # Side by side comparison
@@ -544,20 +581,20 @@ def render_data_tab():
             "text/csv"
         )
     else:
-        st.info(f"💡 No {data_mode} data available.")
+        st.info(f"💡 No {data_mode} data available. Run a simulation first.")
 
-        
+
 # ============================================== #
 # MAIN APP
 # ============================================== #
 
 def main():
     """Main application."""
-    mode, selected_run_info = render_sidebar()
+    mode = render_sidebar()
     render_header()
     
     st.divider()
-    render_overview(selected_run_info)
+    render_overview()
     
     st.divider()
     
@@ -569,7 +606,7 @@ def main():
     ])
     
     with tab1:
-        render_realtime_tab(selected_run_info)
+        render_realtime_tab()
     
     with tab2:
         render_comparison_tab()

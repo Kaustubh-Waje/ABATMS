@@ -12,7 +12,7 @@ from dataclasses import dataclass, asdict
 from typing import Dict, List, Any, Optional
 from collections import deque
 
-from config import OUTPUT_DIR, HISTORY_DIR, output_config
+from config import OUTPUT_DIR, output_config
 
 
 # ============================================== #
@@ -98,15 +98,8 @@ class DataCollector:
         self.start_time = None
         self.last_collection_time = 0.0
         
-        # Run ID and directory
-        self.timestamp_str = datetime.now().strftime("%Y%m%d_%H%M%S")
-        self.run_id = f"{self.timestamp_str}_{self.mode}"
-        self.run_dir = os.path.join(HISTORY_DIR, self.run_id)
-        
-        # Ensure output directories exist
+        # Ensure output directory exists
         os.makedirs(OUTPUT_DIR, exist_ok=True)
-        os.makedirs(HISTORY_DIR, exist_ok=True)
-        os.makedirs(self.run_dir, exist_ok=True)
         
     def start(self):
         """Start data collection session."""
@@ -284,16 +277,6 @@ class DataCollector:
                     writer.writerow(asdict(snapshot))
         
         print(f"[DATA] Exported {len(self.snapshots)} snapshots to {filepath}")
-        
-        # Also save to run directory
-        run_filepath = os.path.join(self.run_dir, filename)
-        with open(run_filepath, 'w', newline='') as f:
-            if self.snapshots:
-                writer = csv.DictWriter(f, fieldnames=asdict(self.snapshots[0]).keys())
-                writer.writeheader()
-                for snapshot in self.snapshots:
-                    writer.writerow(asdict(snapshot))
-        
         return filepath
     
     def export_summary(self, filename: str = "simulation_summary.json") -> str:
@@ -310,43 +293,7 @@ class DataCollector:
             json.dump(summary, f, indent=2)
         
         print(f"[DATA] Exported summary to {filepath}")
-        
-        # Also save to run directory
-        run_filepath = os.path.join(self.run_dir, filename)
-        with open(run_filepath, 'w') as f:
-            json.dump(summary, f, indent=2)
-            
-        # Update history index
-        self._update_history_index(summary)
-        
         return filepath
-
-    def _update_history_index(self, summary: Dict[str, Any]):
-        """Update the history index file with this run."""
-        index_file = os.path.join(HISTORY_DIR, 'index.json')
-        history = []
-        
-        if os.path.exists(index_file):
-            try:
-                with open(index_file, 'r') as f:
-                    history = json.load(f)
-            except:
-                history = []
-        
-        # Add new entry
-        entry = {
-            'run_id': self.run_id,
-            'timestamp': self.timestamp_str,
-            'mode': self.mode,
-            'summary': summary
-        }
-        history.append(entry)
-        
-        # Sort by timestamp descending
-        history.sort(key=lambda x: x['timestamp'], reverse=True)
-        
-        with open(index_file, 'w') as f:
-            json.dump(history, f, indent=2)
 
 
 # ============================================== #

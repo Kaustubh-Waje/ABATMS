@@ -24,7 +24,6 @@ if SUMO_HOME:
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 NETWORK_DIR = os.path.join(PROJECT_ROOT, 'sumo_network')
 OUTPUT_DIR = os.path.join(PROJECT_ROOT, 'output')
-HISTORY_DIR = os.path.join(OUTPUT_DIR, 'history')
 
 # SUMO configuration files
 SUMO_CFG = os.path.join(NETWORK_DIR, 'simulation.sumocfg')
@@ -265,6 +264,5 @@ def validate_config() -> bool:
     
     # Create output directory if needed
     os.makedirs(OUTPUT_DIR, exist_ok=True)
-    os.makedirs(HISTORY_DIR, exist_ok=True)
     
     return True
