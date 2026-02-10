@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Detector Definitions for Traffic Measurement -->
+<additional xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/additional_file.xsd">
+
+    <!-- North Approach Detectors -->
+    <inductionLoop id="det_north_0" lane="north_in_0" pos="300.0" freq="60" file="NUL"/>
+    <inductionLoop id="det_north_1" lane="north_in_1" pos="300.0" freq="60" file="NUL"/>
+    <inductionLoop id="det_north_2" lane="north_in_2" pos="300.0" freq="60" file="NUL"/>
+    
+    <!-- South Approach Detectors -->
+    <inductionLoop id="det_south_0" lane="south_in_0" pos="300.0" freq="60" file="NUL"/>
+    <inductionLoop id="det_south_1" lane="south_in_1" pos="300.0" freq="60" file="NUL"/>
+    <inductionLoop id="det_south_2" lane="south_in_2" pos="300.0" freq="60" file="NUL"/>
+    
+    <!-- East Approach Detectors -->
+    <inductionLoop id="det_east_0" lane="east_in_0" pos="300.0" freq="60" file="NUL"/>
+    <inductionLoop id="det_east_1" lane="east_in_1" pos="300.0" freq="60" file="NUL"/>
+    <inductionLoop id="det_east_2" lane="east_in_2" pos="300.0" freq="60" file="NUL"/>
+    
+    <!-- West Approach Detectors -->
+    <inductionLoop id="det_west_0" lane="west_in_0" pos="300.0" freq="60" file="NUL"/>
+    <inductionLoop id="det_west_1" lane="west_in_1" pos="300.0" freq="60" file="NUL"/>
+    <inductionLoop id="det_west_2" lane="west_in_2" pos="300.0" freq="60" file="NUL"/>
+
+</additional>

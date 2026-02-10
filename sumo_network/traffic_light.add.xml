@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+    Custom 4-Phase Traffic Light Program
+    Each direction gets its own dedicated green phase
+    Phase rotation: North → East → South → West
+-->
+<additional xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/additional_file.xsd">
+
+    <!-- Traffic Light Program with 8 phases (4 green + 4 yellow) -->
+    <!-- State string has 24 characters for all lane connections -->
+    <!-- Connections layout (from junction.net.xml):
+         0-5:   north_in connections (right, straight x3, left, u-turn)
+         6-11:  east_in connections (right, straight x3, left, u-turn)
+         12-17: south_in connections (right, straight x3, left, u-turn)
+         18-23: west_in connections (right, straight x3, left, u-turn)
+    -->
+    
+    <tlLogic id="center" type="static" programID="adaptive_4phase" offset="0">
+        
+        <!-- Phase 0: North Green (duration adaptive, default 30s) -->
+        <!-- North lanes (0-5) green, others red -->
+        <phase duration="30" state="GGGGGgrrrrrrrrrrrrrrrrrr" name="north_green"/>
+        
+        <!-- Phase 1: North Yellow -->
+        <phase duration="4" state="yyyyyyrrrrrrrrrrrrrrrrrr" name="north_yellow"/>
+        
+        <!-- Phase 2: East Green -->
+        <!-- East lanes (6-11) green, others red -->
+        <phase duration="30" state="rrrrrrGGGGGgrrrrrrrrrrrr" name="east_green"/>
+        
+        <!-- Phase 3: East Yellow -->
+        <phase duration="4" state="rrrrrryyyyyyrrrrrrrrrrrr" name="east_yellow"/>
+        
+        <!-- Phase 4: South Green -->
+        <!-- South lanes (12-17) green, others red -->
+        <phase duration="30" state="rrrrrrrrrrrrGGGGGgrrrrrr" name="south_green"/>
+        
+        <!-- Phase 5: South Yellow -->
+        <phase duration="4" state="rrrrrrrrrrrryyyyyyrrrrrr" name="south_yellow"/>
+        
+        <!-- Phase 6: West Green -->
+        <!-- West lanes (18-23) green, others red -->
+        <phase duration="30" state="rrrrrrrrrrrrrrrrrrGGGGGg" name="west_green"/>
+        
+        <!-- Phase 7: West Yellow -->
+        <phase duration="4" state="rrrrrrrrrrrrrrrrrryyyyyy" name="west_yellow"/>
+        
+    </tlLogic>
+
+</additional>

@@ -1,0 +1,24 @@
+# Intelligent Traffic Management System
+# Python Dependencies
+
+# SUMO TraCI Interface
+traci>=1.14.0
+
+# Data Processing
+pandas>=2.0.0
+numpy>=1.24.0
+
+# Visualization Dashboard
+streamlit>=1.29.0
+plotly>=5.18.0
+
+# Optional: Computer Vision (for future camera integration)
+opencv-python>=4.8.0
+
+# Utilities
+python-dateutil>=2.8.0
+
+# Web API
+fastapi>=0.109.0
+uvicorn>=0.27.0
+python-multipart>=0.0.9

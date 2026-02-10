@@ -1,0 +1,15 @@
+{
+  "mode": "fixed",
+  "total_samples": 799,
+  "simulation_duration": 798.9,
+  "average_waiting_time": 16.123124732121294,
+  "max_waiting_time": 26.841891891891894,
+  "min_waiting_time": 0.0,
+  "average_queue_length": 31.76595744680851,
+  "max_queue_length": 49,
+  "total_phase_changes": 47,
+  "ns_green_phases": 6,
+  "ew_green_phases": 6,
+  "emergency_events": 0,
+  "emergency_preemptions": 0
+}
