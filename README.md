@@ -6,6 +6,7 @@
 
 An AI-powered adaptive traffic signal control system using SUMO simulation with real-time analytics dashboard. Implements pressure-based algorithms and emergency vehicle preemption for optimized traffic flow.
 
+
 ## 📋 Table of Contents
 
 - [Features](#-features)
